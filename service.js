@@ -41,3 +41,41 @@ export async function DelUserData(id){
         await fs.writeFile("users.json", JSON.stringify(users, null, 2));
         }
 }
+
+
+export async function PatchUserData(id, name, email ){
+    let users = await GetAllUsers();
+    let user  = users.find((user) => user.id == id)
+    if(!user){
+        return null
+    }
+    if(name){
+        user.name = name
+    }
+    if(email){
+        user.email = email
+    }
+    await fs.writeFile("users.json", JSON.stringify(users, null, 2));
+    return user;
+}
+
+    
+export async function PutUserData(id, name, email){
+    let users = await GetAllUsers();
+    let user = users.find((user)=> user.id == id)
+    if(!user){
+        const user = await AddUserData(name, email)
+        return user
+    }
+    if(!name || !email){
+        return null
+    }
+    user.name = name;
+    user.email = email;
+
+    await fs.writeFile("users.json", JSON.stringify(users, null, 2));
+    return user;
+}
+
+
+

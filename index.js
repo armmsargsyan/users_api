@@ -1,4 +1,4 @@
-import { GetAllUsers, GetUserById, AddUserData, DelUserData } from "./service.js";
+import { GetAllUsers, GetUserById, AddUserData, DelUserData, PatchUserData, PutUserData } from "./service.js";
 
 import express from "express";
 
@@ -41,6 +41,23 @@ app.delete("/users/:id", async(req, res)=> {
 
 
 
+app.patch("/users/:id", async(req, res)=>{
+    let user = await PatchUserData(req.params.id, req.body.name, req.body.email)
+    if(user){
+        res.status(200).json(user)
+    }else{
+        res.status(404).end()
+    }
+})
+
+app.put("/users/:id", async(req, res)=>{
+    let user = await PutUserData(req.params.id, req.body.name, req.body.email)
+    if(user){
+        res.status(200).json(user)
+    }else{
+        res.status(404).end
+    }
+})
 
 
 
